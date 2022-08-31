@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-    <canvas id="mycanvas" width="1000" height="1000">
+    <canvas id="mycanvas" width="1000" height="1200">
         Hola tu navegador no funciona
     </canvas>
 
@@ -29,38 +29,35 @@
         var player2 = null;
         var pared = [50];
         var direccion = null;
-        var score = 10;
         var speed = 2;
         var pause = true;
-        var soldado = new Image();
-        var coin = new Image(); 
+        var bob = new Image();
+        var cangreburger = new Image(); 
         var fondoBob = new Audio();   
+        var fondo = new Image();
+        var seTocaron= false;
+        var pez = new Image();
+        var aplausos = new Audio();
+        var bobFinal = new Image();
 
         function run (){
             canvas = document.getElementById('mycanvas');
             ctx = canvas.getContext('2d');
 
-            player1 = new Cuadro(70, 90, 25, 25, "red");
+            player1 = new Cuadro(70, 90, 25, 25, "yellow");
 
             player2 = new Cuadro(920, 930, 40, 40, "yellow");
 
             //Cuadro inicial
             pared[0] = new Cuadro(50, 80, 1, 890, "black");
-            pared[1] = new Cuadro(950, 80, 1, 830, "black");
-            pared[2] = new Cuadro(100, 80, 850, 1, "black");
+            pared[1] = new Cuadro(950, 80, 1, 890, "black");
+            pared[2] = new Cuadro(50, 80, 900, 1, "black");
             pared[3] = new Cuadro(50, 970, 860, 1, "black");
 
-            //paredes dentro del laberinto
-
-            //horizontal
+            // Relleno del laberinto
             pared[4] = new Cuadro(100, 130, 130, 1, "black");
-
             pared[5] = new Cuadro(230, 130, 1, 45, "black");
-
-            //vertical
             pared[6] = new Cuadro(280, 80, 1, 50, "black");
-            
-            ///////////////////// ROJO /////////////////////////
             pared[7] = new Cuadro(280, 130, 200, 1, "black");
             pared[8] = new Cuadro(480, 130, 1, 40, "black");
             pared[9] = new Cuadro(480, 170, 110, 1, "black");
@@ -108,8 +105,6 @@
             pared[50] = new Cuadro(190, 290, 1, 40, "black");
             pared[51] = new Cuadro(150, 330, 40, 1, "black");
             pared[52] = new Cuadro(760, 330, 40, 1, "black");
-
-            ///////////////////////// VERDE //////////////////////
             pared[53] = new Cuadro(670, 400, 220, 1, "black");
             pared[54] = new Cuadro(80, 220, 1, 40, "black");
             pared[55] = new Cuadro(80, 260, 60, 1, "black");
@@ -131,11 +126,9 @@
             pared[71] = new Cuadro(210, 470, 200, 1, "black");
             pared[72] = new Cuadro(90, 480, 90, 1, "black");
             pared[73] = new Cuadro(210, 430, 1, 120, "black");
-
             pared[74] = new Cuadro(140, 480, 1, 200, "black");
             pared[99] = new Cuadro(90, 680, 50, 1, "black");
             pared[100] = new Cuadro(90, 610, 1, 70, "black");
-
             pared[75] = new Cuadro(180, 505, 30, 1, "black");
             pared[76] = new Cuadro(310, 400, 1, 70, "black");
             pared[77] = new Cuadro(310, 400, 40, 1, "black");
@@ -169,8 +162,6 @@
             pared[107] = new Cuadro(530, 530, 180, 1, "black");
             pared[108] = new Cuadro(460, 510, 30, 1, "black");
             pared[109] = new Cuadro(280, 510, 80, 1, "black");
-
-            /////////////////// AZUL ////////////////////
             pared[110] = new Cuadro(710, 530, 1, 85, "black");
             pared[111] = new Cuadro(360, 510, 1, 130, "black");
             pared[112] = new Cuadro(320, 510, 1, 130, "black");
@@ -212,8 +203,6 @@
             pared[147] = new Cuadro(490, 800, 40, 1, "black");
             pared[148] = new Cuadro(530, 780, 1, 20, "black");
             pared[149] = new Cuadro(410, 640, 1, 120, "black");
-
-            //////////////////// MORADO ////////////////////////
             pared[150] = new Cuadro(530, 780, 150, 1, "black");
             pared[151] = new Cuadro(580, 630, 1, 150, "black");
             pared[152] = new Cuadro(580, 680, 40, 1, "black");
@@ -233,7 +222,7 @@
             pared[164] = new Cuadro(410, 930, 1, 40, "black");
             pared[165] = new Cuadro(720, 760, 1, 78, "black");
             pared[166] = new Cuadro(540, 925, 230, 1, "black");
-            pared[167] = new Cuadro(585, 840, 135, 1, "black");
+            pared[167] = new Cuadro(585, 840, 135, 1, "black"); 
             pared[168] = new Cuadro(620, 885, 1, 40, "black");
             pared[169] = new Cuadro(690, 840, 1, 40, "black");
             pared[170] = new Cuadro(540, 880, 1, 45, "black");
@@ -260,9 +249,13 @@
             pared[191] = new Cuadro(320, 720, 40, 1, "black");
             pared[192] = new Cuadro(360, 680, 1, 40, "black");
 
-            soldado.src = "soldado.png";
-            coin.src = "coin.png";
-         
+            bob.src = "bob.png";
+            cangreburger.src = "cangreburger.png";
+            fondoBob.src = "fondo_bob_esponja.mp3";
+            fondo.src = "fondo.jpg";
+            pez.src = "pez.png";
+            aplausos.src = "aplausos.mp3";
+            bobFinal.src = "bob_final.png";
 
             paint();
         }
@@ -272,12 +265,12 @@
             window.requestAnimationFrame(paint)
 
             ctx.fillStyle = "white"; 
-            ctx.fillRect(0, 0, 2000, 2000);
+            ctx.fillRect(0, 0, 1000, 1200);
 
             //player1.pintar(ctx);
-
-            // ctx.drawImage(soldado, player1.x, player1.y);
-            // ctx.drawImage(coin, player2.x, player2.y);
+            ctx.drawImage(fondo, 0, 0, 1000, 1200);
+            ctx.drawImage(bob, player1.x, player1.y, 30, 30);
+            ctx.drawImage(cangreburger, player2.x, player2.y, 30, 30);
 
             //player2.pintar(ctx);
             
@@ -288,26 +281,61 @@
             }
 
             if (pause){
-                ctx.fillStyle = "rgb(0,0,0,0.5";
+                ctx.fillStyle = "rgb(0,0,0,0.7";
                 ctx.fillRect(0,0, 2000, 2000); 
 
                 ctx.fillStyle = "red";
                 ctx.font = "100px Arial"
                 ctx.fillText("PAUSA", 300, 300)
-           
 
-            }else{
+                ctx.font = "40px Arial"
+                ctx.fillText("Instrucciones: ", 100, 400)
+                
+                ctx.font = "30px Arial"
+                ctx.fillText("- LLeva a Bob Esponja hasta la cangreburger :D ", 100, 500)
+                ctx.fillText("- Despausar con la barra de ESPACIO", 100, 550)
+                ctx.fillText("- Moverte con WASD o con las flechas del teclado ", 100, 600)
+                ctx.fillText("- Diviertete! ", 100, 650)
+
+                ctx.font = "40px Arial"
+                ctx.fillText("Pista: ", 100, 800)
+
+                ctx.font = "30px Arial"
+                ctx.fillText("- Hay una salida, pero dos formas de llegar...", 100, 900)
+
+                ctx.drawImage(pez, 700, 800, 250, 250)
+                fondoBob.pause()
+                fondoBob.volume = 0.5; 
+            }else if (seTocaron){
+                ctx.fillStyle = "rgb(0,0,0,0.7";
+                ctx.fillRect(0,0, 2000, 2000); 
+
+                ctx.fillStyle = "yellow";
+                ctx.font = "100px Arial"
+                ctx.fillText("¡GANASTE!", 240, 300)
+
+                ctx.font = "40px Arial"
+                ctx.fillText("Felicidades! Llevaste a Bob a la cangreburger ", 100, 500)
+
+                ctx.drawImage(bobFinal, 230, 600, 550, 300)
+
+                ctx.fillText("Presiona la tecla R para reiniciar el laberinto ", 100, 1050)
+
+
+                fondoBob.pause();
+
+            }else {
                 update();
-
+                fondoBob.play()
             }
-    
         }
+
+        
 
         function update(){
 
             if (direccion == 'arriba') {
                 player1.y -= speed;
-
                 if (player1.y<0){
                     player1.y = 1000;
                 }
@@ -336,7 +364,8 @@
             }
             
             if (player1.se_tocan(player2)) {
-                
+                seTocaron = true;
+                aplausos.play();
             }
 
             for (var i = 0; i<pared.length; i++){
@@ -355,11 +384,7 @@
                 }
             }
             }
-           
-
         }
-
-        
 
         function random(number){
             return Math.floor(Math.random()*number);
@@ -407,9 +432,8 @@
             };
         }
 
+        function actualizar(){location.reload(true);}
      
-
-
         document.addEventListener('keydown', function(e){
             console.log(e);
 
@@ -435,6 +459,10 @@
             
             if (e.keyCode == 32){
                 pause = (pause) ? false:true;
+            }
+            
+            if (e.keyCode == 82){
+                actualizar();
             }
         })
 
